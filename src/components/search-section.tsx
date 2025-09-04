@@ -37,6 +37,7 @@ export function SearchSection() {
         .from('results')
         .select('name, no, category, grade, rank')
         .ilike('name', `%${cleanSearchTerm}%`)
+        .order('rank', { ascending: true, nullsFirst: false })
         .order('grade', { ascending: false })
         .limit(5) // عرض أكثر من نتيجة للتأكد من العثور على الصحيحة
       
@@ -49,6 +50,7 @@ export function SearchSection() {
           .from('results')
           .select('name, no, category, grade, rank')
           .ilike('name', `%${searchPattern}%`)
+          .order('rank', { ascending: true, nullsFirst: false })
           .order('grade', { ascending: false })
           .limit(5)
         

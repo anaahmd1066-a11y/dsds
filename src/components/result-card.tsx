@@ -89,19 +89,45 @@ export function ResultCard({ name, grade, category, rank }: ResultCardProps) {
         {/* عرض الترتيب فوق الاسم */}
         {rank && (
           <div className="mb-4">
-            <Badge 
-              variant="outline" 
-              className={cn(
-                "text-lg font-bold px-6 py-3 border-2",
-                rank <= 3 
-                  ? "bg-gradient-golden text-accent-foreground border-accent/40 golden-glow animate-pulse" 
-                  : rank <= 10
-                  ? "bg-gradient-islamic text-primary-foreground border-primary/40 glow-effect"
-                  : "bg-secondary text-secondary-foreground border-secondary/40"
+            <div className="space-y-2">
+              <Badge 
+                variant="outline" 
+                className={cn(
+                  "text-xl font-bold px-8 py-4 border-3 shadow-lg",
+                  rank === 1 
+                    ? "bg-gradient-to-r from-yellow-400 to-yellow-600 text-yellow-900 border-yellow-500 golden-glow animate-pulse shadow-yellow-300" 
+                    : rank === 2
+                    ? "bg-gradient-to-r from-gray-300 to-gray-500 text-gray-900 border-gray-400 shadow-gray-300"
+                    : rank === 3
+                    ? "bg-gradient-to-r from-orange-400 to-orange-600 text-orange-900 border-orange-500 shadow-orange-300"
+                    : rank <= 10
+                    ? "bg-gradient-islamic text-primary-foreground border-primary/40 glow-effect"
+                    : "bg-secondary text-secondary-foreground border-secondary/40"
+                )}
+              >
+                {rank === 1 && "🥇"} 
+                {rank === 2 && "🥈"} 
+                {rank === 3 && "🥉"} 
+                {rank > 3 && "🏆"} 
+                الترتيب {rank}
+              </Badge>
+              
+              {category && getCategoryName(category) && (
+                <div className="text-center">
+                  <Badge variant="outline" className="text-base px-4 py-2 bg-blue-50 text-blue-800 border-blue-300 font-semibold">
+                    📚 في فئة {getCategoryName(category)}
+                  </Badge>
+                </div>
               )}
-            >
-              🏆 الترتيب {rank} {category && getCategoryName(category) ? `في فئة ${getCategoryName(category)}` : 'عام'}
-            </Badge>
+              
+              {!category && (
+                <div className="text-center">
+                  <Badge variant="outline" className="text-base px-4 py-2 bg-purple-50 text-purple-800 border-purple-300 font-semibold">
+                    🌟 الترتيب العام
+                  </Badge>
+                </div>
+              )}
+            </div>
           </div>
         )}
         
@@ -124,22 +150,22 @@ export function ResultCard({ name, grade, category, rank }: ResultCardProps) {
         </div>
         
         {/* عرض الفئة والترتيب بشكل منفصل */}
-        <div className="mt-4 space-y-3">
-          {category && getCategoryName(category) && (
+        {/* معلومات إضافية عن الفئة */}
+        {!rank && category && getCategoryName(category) && (
+          <div className="mt-4">
             <Badge variant="outline" className="text-lg px-4 py-2 bg-blue-50 text-blue-800 border-blue-200 font-semibold">
               📚 فئة {getCategoryName(category)}
             </Badge>
-          )}
-          
-          {/* إذا لم تكن هناك فئة أو ترتيب، اعرض رسالة توضيحية */}
-          {!category && (
-            <div className="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-200">
-              <p className="text-blue-800 text-sm text-center font-medium">
-                📋 لم يتم تحديد الفئة لهذا المشارك
-              </p>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
+        
+        {!rank && !category && (
+          <div className="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-200">
+            <p className="text-blue-800 text-sm text-center font-medium">
+              📋 لم يتم تحديد الفئة أو الترتيب لهذا المشارك
+            </p>
+          </div>
+        )}
       </CardHeader>
 
       <CardContent className="text-center">
